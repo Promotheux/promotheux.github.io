@@ -9,11 +9,20 @@
     <!-- Application Structure Plan: The application is structured around user tasks rather than the report's linear sections. A primary tab-based navigation allows users to jump directly to their key questions: 'Get Prepared', 'Who Do I Call?', 'What Do I Say (IFR/UNICOM)?', and 'Quick Reference'. This task-oriented design is more intuitive for a new user trying to solve a specific problem (e.g., "I'm at the gate, who do I talk to?"). The 'Who Do I Call?' section is the core interactive element, turning the abstract 'Top-Down' rule into a tangible tool. The 'What Do I Say?' sections break down the long flight script into clickable, manageable phases, reducing information overload. This structure is designed to build confidence by providing clear, accessible answers in an interactive format. -->
     <!-- Visualization & Content Choices: The report's information is primarily procedural and textual. Therefore, the focus is on interactive organization rather than data visualization. Report Info: ATC Hierarchy & Top-Down Rule -> Goal: Organize/Explain -> Viz/Presentation: Interactive toggle-based diagram -> Interaction: User toggles controller statuses to see who to call -> Justification: Makes the most confusing VATSIM rule interactive and easy to understand. Library/Method: Vanilla JS, HTML/CSS. Report Info: IFR/UNICOM Phraseology -> Goal: Inform/Organize -> Viz/Presentation: Accordion/Tabbed content -> Interaction: User clicks a flight phase to reveal specific phrases -> Justification: Breaks down intimidating scripts into digestible, context-specific chunks. Library/Method: Vanilla JS, HTML/CSS. Report Info: Phonetic Alphabet -> Goal: Inform -> Viz/Presentation: Styled HTML table -> Interaction: Static reference. Justification: Clear and standard presentation. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         body {
             background-color: #f5f5f4; /* stone-100 */
             color: #27272a; /* zinc-800 */
             font-family: 'Inter', sans-serif;
+        }
+        .dark body {
+            background-color: #18181b; /* zinc-900 */
+            color: #d4d4d8; /* zinc-300 */
         }
         @import url('https://rsms.me/inter/inter.css');
         .nav-button {
@@ -24,8 +33,14 @@
             border-bottom-color: #0891b2; /* cyan-600 */
             color: #0e7490; /* cyan-700 */
         }
+        .dark .nav-button.active {
+            color: #67e8f9; /* cyan-300 */
+        }
         .nav-button:hover {
             background-color: #f1f5f9; /* slate-100 */
+        }
+        .dark .nav-button:hover {
+            background-color: #27272a; /* zinc-800 */
         }
         .content-section {
             display: none;
@@ -35,11 +50,6 @@
         }
         .accordion-button {
             transition: background-color 0.2s;
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
         }
         .dialogue {
             border-left: 3px solid;
@@ -54,8 +64,8 @@
             border-color: #be123c; /* rose-700 */
         }
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #0891b2;
+            border: 4px solid #3f3f46; /* zinc-700 */
+            border-top: 4px solid #0891b2; /* cyan-600 */
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -71,14 +81,14 @@
 <body class="antialiased">
 
     <div class="min-h-screen">
-        <header class="bg-white shadow-sm">
+        <header class="bg-white dark:bg-zinc-800 shadow-sm">
             <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Interactive Helper to VATSIM Communication</h1>
-                <p class="mt-4 text-xl text-gray-600">Your co-pilot for mastering radio calls and procedures on the network.</p>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl">Interactive Helper to VATSIM Communication</h1>
+                <p class="mt-4 text-xl text-gray-600 dark:text-gray-400">Your co-pilot for mastering radio calls and procedures on the network.</p>
                 <div id="flight-plan-inputs" class="mt-6 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <input type="text" id="departure-icao" class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Departure ICAO (e.g., EHAM)">
-                    <input type="text" id="arrival-icao" class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Arrival ICAO (e.g., EGLL)">
-                    <input type="text" id="callsign-input" class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Callsign (e.g., Vueling 016)">
+                    <input type="text" id="departure-icao" class="p-3 border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Departure ICAO (e.g., EHAM)">
+                    <input type="text" id="arrival-icao" class="p-3 border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Arrival ICAO (e.g., EGLL)">
+                    <input type="text" id="callsign-input" class="p-3 border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Callsign (e.g., Vueling 016)">
                     <button id="fetch-flight-btn" class="sm:col-span-3 bg-cyan-600 text-white font-bold py-3 px-6 rounded-md hover:bg-cyan-700 transition-colors">Fetch Frequencies & Build Script</button>
                 </div>
             </div>
@@ -93,7 +103,7 @@
                     </div>
                 </div>
 
-                <nav id="main-nav" class="flex flex-wrap justify-center border-b border-gray-300 mb-8">
+                <nav id="main-nav" class="flex flex-wrap justify-center border-b border-gray-300 dark:border-zinc-700 mb-8">
                     <button data-target="prepare" class="nav-button active text-lg font-medium py-4 px-6">1. Get Prepared</button>
                     <button data-target="who-to-call" class="nav-button text-lg font-medium py-4 px-6">2. Who Do I Call? (Live)</button>
                     <button data-target="ifr-calls" class="nav-button text-lg font-medium py-4 px-6">3. IFR Phraseology (Live)</button>
@@ -105,21 +115,21 @@
                     <!-- Section 1: Get Prepared -->
                     <section id="prepare" class="content-section active">
                         <div class="text-center mb-12">
-                            <h2 class="text-3xl font-bold text-gray-900">Foundations of Radio Discipline</h2>
-                            <p class="mt-2 text-lg text-gray-600">Success on the network starts before you connect. Strong preparation is the key to minimizing stress and ensuring smooth communication for everyone.</p>
+                            <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Foundations of Radio Discipline</h2>
+                            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">Success on the network starts before you connect. Strong preparation is the key to minimizing stress and ensuring smooth communication for everyone.</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800">✈️ Aircraft Familiarity</h3>
-                                <p class="text-gray-700">This is the most critical step. You must be comfortable with your aircraft's systems, especially the autopilot and FMS, *before* adding ATC. Controllers issue instructions with the expectation you can comply quickly. Practice offline until you can confidently manage your aircraft's speed, heading, and altitude without hesitation.</p>
+                            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow">
+                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800 dark:text-cyan-400">✈️ Aircraft Familiarity</h3>
+                                <p class="text-gray-700 dark:text-gray-300">This is the most critical step. You must be comfortable with your aircraft's systems, especially the autopilot and FMS, *before* adding ATC. Controllers issue instructions with the expectation you can comply quickly. Practice offline until you can confidently manage your aircraft's speed, heading, and altitude without hesitation.</p>
                             </div>
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800">🗺️ Flight Plan & Charts</h3>
-                                <p class="text-gray-700">Always file a valid flight plan before connecting. Have all necessary charts for your route: Airport Diagrams, SIDs, STARs, and En-route charts. An instruction like "Taxi to holding point Alpha 1 via Kilo" is impossible without the airport diagram. Not having charts creates unnecessary delays for you and the controller.</p>
+                            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow">
+                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800 dark:text-cyan-400">🗺️ Flight Plan & Charts</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Always file a valid flight plan before connecting. Have all necessary charts for your route: Airport Diagrams, SIDs, STARs, and En-route charts. An instruction like "Taxi to holding point Alpha 1 via Kilo" is impossible without the airport diagram. Not having charts creates unnecessary delays for you and the controller.</p>
                             </div>
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800">📜 The Rules of the Radio</h3>
-                                <p class="text-gray-700"><strong class="block mb-1">Listen before you speak.</strong> This prevents cutting someone off. Your first call should almost always follow this structure: <strong class="text-cyan-900">1. Who you're calling, 2. Who you are, 3. What you want.</strong> Example: "Luton Ground, Easy 123, request pushback."</p>
+                            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow">
+                                <h3 class="text-2xl font-semibold mb-3 text-cyan-800 dark:text-cyan-400">📜 The Rules of the Radio</h3>
+                                <p class="text-gray-700 dark:text-gray-300"><strong class="block mb-1">Listen before you speak.</strong> This prevents cutting someone off. Your first call should almost always follow this structure: <strong class="text-cyan-900 dark:text-cyan-300">1. Who you're calling, 2. Who you are, 3. What you want.</strong> Example: "Luton Ground, Easy 123, request pushback."</p>
                             </div>
                         </div>
                     </section>
@@ -127,12 +137,12 @@
                     <!-- Section 2: Who Do I Call? -->
                     <section id="who-to-call" class="content-section">
                         <div class="text-center mb-12">
-                            <h2 class="text-3xl font-bold text-gray-900">Live Top-Down Service Guide</h2>
-                            <p class="mt-2 text-lg text-gray-600">Based on the live VATSIM data for your flight plan, here is the correct controller to contact for each phase of flight.</p>
+                            <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Live Top-Down Service Guide</h2>
+                            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">Based on the live VATSIM data for your flight plan, here is the correct controller to contact for each phase of flight.</p>
                         </div>
                         <div id="top-down-results" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                             <div class="bg-white p-8 rounded-lg shadow-lg text-center md:col-span-2">
-                                <p class="text-gray-600">Enter a departure, arrival ICAO, and callsign in the header and click "Fetch Frequencies" to see live controller information here.</p>
+                             <div class="bg-white dark:bg-zinc-800 p-8 rounded-lg shadow-lg text-center md:col-span-2">
+                                <p class="text-gray-600 dark:text-gray-400">Enter a departure, arrival ICAO, and callsign in the header and click "Fetch Frequencies" to see live controller information here.</p>
                             </div>
                         </div>
                     </section>
@@ -140,12 +150,12 @@
                     <!-- Section 3: IFR Phraseology -->
                     <section id="ifr-calls" class="content-section">
                         <div class="text-center mb-12">
-                             <h2 class="text-3xl font-bold text-gray-900">Live IFR Flight Phraseology</h2>
-                             <p class="mt-2 text-lg text-gray-600">This is a personalized walkthrough of a standard IFR flight using your callsign and live ATC data. Click on each phase to see the typical exchange.</p>
+                             <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Live IFR Flight Phraseology</h2>
+                             <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">This is a personalized walkthrough of a standard IFR flight using your callsign and live ATC data. Click on each phase to see the typical exchange.</p>
                         </div>
                         <div class="space-y-2" id="ifr-accordion">
-                           <div class="bg-white p-8 rounded-lg shadow-lg text-center">
-                                <p class="text-gray-600">Enter your flight details in the header and click "Fetch Frequencies" to generate your personalized script.</p>
+                           <div class="bg-white dark:bg-zinc-800 p-8 rounded-lg shadow-lg text-center">
+                                <p class="text-gray-600 dark:text-gray-400">Enter your flight details in the header and click "Fetch Frequencies" to generate your personalized script.</p>
                             </div>
                         </div>
                     </section>
@@ -153,8 +163,8 @@
                      <!-- Section 4: UNICOM Phraseology -->
                     <section id="unicom-calls" class="content-section">
                         <div class="text-center mb-12">
-                             <h2 class="text-3xl font-bold text-gray-900">UNICOM Phraseology (122.800)</h2>
-                            <p class="mt-2 text-lg text-gray-600">When no ATC is online, you must self-report your position and intentions on the UNICOM frequency. This is advisory, not instructional. The goal is to let other pilots know where you are and what you're doing. All calls should start with the airport name.</p>
+                             <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">UNICOM Phraseology (122.800)</h2>
+                            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">When no ATC is online, you must self-report your position and intentions on the UNICOM frequency. This is advisory, not instructional. The goal is to let other pilots know where you are and what you're doing. All calls should start with the airport name.</p>
                         </div>
                         <div class="space-y-2" id="unicom-accordion">
                              <!-- Accordion items will be generated by JS -->
@@ -164,15 +174,15 @@
                     <!-- Section 5: Quick Reference -->
                     <section id="reference" class="content-section">
                          <div class="text-center mb-12">
-                             <h2 class="text-3xl font-bold text-gray-900">Quick Reference</h2>
-                             <p class="mt-2 text-lg text-gray-600">Essential information at your fingertips. Use this for the phonetic alphabet and how to handle common situations.</p>
+                             <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Quick Reference</h2>
+                             <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">Essential information at your fingertips. Use this for the phonetic alphabet and how to handle common situations.</p>
                         </div>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                <h3 class="text-2xl font-semibold mb-4 text-cyan-800">ICAO Phonetic Alphabet & Numbers</h3>
+                            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow">
+                                <h3 class="text-2xl font-semibold mb-4 text-cyan-800 dark:text-cyan-400">ICAO Phonetic Alphabet & Numbers</h3>
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-left">
-                                        <thead class="bg-slate-100">
+                                        <thead class="bg-slate-100 dark:bg-zinc-700">
                                             <tr>
                                                 <th class="p-2">Letter</th><th class="p-2">Code</th><th>Pronunciation</th>
                                                 <th class="p-2">Num</th><th class="p-2">Pronunciation</th>
@@ -184,20 +194,20 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                <h3 class="text-2xl font-semibold mb-4 text-cyan-800">Handling the Unexpected</h3>
+                            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow">
+                                <h3 class="text-2xl font-semibold mb-4 text-cyan-800 dark:text-cyan-400">Handling the Unexpected</h3>
                                 <div class="space-y-4">
                                     <div>
                                         <h4 class="font-bold text-lg">Instruction Unclear?</h4>
-                                        <p class="text-gray-700">Never guess. The most important phrase is <strong class="text-rose-700">"Say again."</strong> Controllers would much rather repeat themselves than have you perform a wrong action. Simply say: <code class="bg-gray-200 p-1 rounded">"Say again for [Your Callsign]."</code></p>
+                                        <p class="text-gray-700 dark:text-gray-300">Never guess. The most important phrase is <strong class="text-rose-700 dark:text-rose-500">"Say again."</strong> Controllers would much rather repeat themselves than have you perform a wrong action. Simply say: <code class="bg-gray-200 dark:bg-zinc-700 dark:text-gray-300 p-1 rounded">"Say again for [Your Callsign]."</code></p>
                                     </div>
                                      <div>
                                         <h4 class="font-bold text-lg">Made a Mistake?</h4>
-                                        <p class="text-gray-700">It happens! VATSIM is a learning environment. The controller will correct you. Acknowledge the correction, comply with the new instruction, and move on. Don't panic.</p>
+                                        <p class="text-gray-700 dark:text-gray-300">It happens! VATSIM is a learning environment. The controller will correct you. Acknowledge the correction, comply with the new instruction, and move on. Don't panic.</p>
                                     </div>
                                      <div>
                                         <h4 class="font-bold text-lg">Simulated Emergency</h4>
-                                        <p class="text-gray-700">Declare it with <strong class="text-rose-700">"Mayday, Mayday, Mayday."</strong> State your callsign, position, the nature of the emergency, and your intentions. Squawk 7700. Be aware controllers can deny emergency requests if traffic prevents them from accommodating. <strong class="font-bold">Never use squawk codes 7500 or 7600.</strong></p>
+                                        <p class="text-gray-700 dark:text-gray-300">Declare it with <strong class="text-rose-700 dark:text-rose-500">"Mayday, Mayday, Mayday."</strong> State your callsign, position, the nature of the emergency, and your intentions. Squawk 7700. Be aware controllers can deny emergency requests if traffic prevents them from accommodating. <strong class="font-bold">Never use squawk codes 7500 or 7600.</strong></p>
                                     </div>
                                 </div>
                             </div>
@@ -210,6 +220,13 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Dark Mode Logic
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
 
     const mainNav = document.getElementById('main-nav');
     const contentContainer = document.getElementById('content-container');
@@ -261,15 +278,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById(containerId);
         if (!container || !data) return;
         container.innerHTML = data.map((item, index) => `
-            <div class="bg-white rounded-lg shadow-sm">
+            <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm">
                 <h2>
-                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 hover:bg-slate-100 focus:outline-none" data-accordion-target="accordion-body-${containerId}-${index}">
+                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-zinc-700 focus:outline-none" data-accordion-target="accordion-body-${containerId}-${index}">
                         <span>${item.title}</span>
                         <svg class="w-6 h-6 shrink-0 transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                     </button>
                 </h2>
                 <div id="accordion-body-${containerId}-${index}" class="accordion-content">
-                    <div class="p-5 border-t border-gray-200">${item.content}</div>
+                    <div class="p-5 border-t border-gray-200 dark:border-zinc-700">${item.content}</div>
                 </div>
             </div>
         `).join('');
@@ -311,12 +328,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const phoneticTableBody = document.getElementById('phonetic-table-body');
     phoneticTableBody.innerHTML = phoneticData.map(row => `
-        <tr class="border-b">
+        <tr class="border-b dark:border-zinc-700">
             <td class="p-2 font-bold">${row[0]}</td>
             <td class="p-2">${row[1]}</td>
-            <td class="p-2 text-sm text-gray-600">${row[2]}</td>
+            <td class="p-2 text-sm text-gray-600 dark:text-gray-400">${row[2]}</td>
             <td class="p-2 font-bold">${row[3]}</td>
-            <td class="p-2 text-sm text-gray-600">${row[4]}</td>
+            <td class="p-2 text-sm text-gray-600 dark:text-gray-400">${row[4]}</td>
         </tr>
     `).join('');
 
@@ -371,10 +388,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const onlineBadge = onlineStation 
                     ? `<span class="ml-2 text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200">Online</span>` 
                     : '';
-                const callsignInfo = onlineStation ? `<span class="text-sm text-gray-500 ml-2">(${onlineStation.callsign})</span>` : '';
+                const callsignInfo = onlineStation ? `<span class="text-sm text-gray-500 dark:text-gray-400 ml-2">(${onlineStation.callsign})</span>` : '';
 
                 freqsHtml += `<li class="flex items-center">
-                                <strong class="w-20">${type}:</strong> ${freq} ${onlineBadge} ${callsignInfo}
+                                <strong class="w-16">${type}:</strong> ${freq} ${onlineBadge} ${callsignInfo}
                               </li>`;
                 if(onlineStation) displayedFreqs.add(onlineStation.callsign);
             }
@@ -384,35 +401,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!displayedFreqs.has(station.callsign)) {
                  const type = station.callsign.split('_').pop();
                  freqsHtml += `<li class="flex items-center">
-                                <strong class="w-20">${type}:</strong> ${station.frequency} 
+                                <strong class="w-16">${type}:</strong> ${station.frequency} 
                                 <span class="ml-2 text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200">Online</span>
-                                <span class="text-sm text-gray-500 ml-2">(${station.callsign})</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">(${station.callsign})</span>
                               </li>`;
             }
         });
         
         if (allOnline.length === 0 && !airportInfo) {
-             return `<div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold text-gray-900">${icao}</h3>
+             return `<div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${icao}</h3>
                         <p class="mt-4">No live ATC was found for this ICAO and it is not in the local database.</p>
                      </div>`;
         }
 
-        freqsHtml += `<li class="flex items-center"><strong class="w-20">UNICOM:</strong> 122.800</li></ul>`;
+        freqsHtml += `<li class="flex items-center"><strong class="w-16">UNICOM:</strong> 122.800</li></ul>`;
 
         return `
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold text-gray-900">${name} (${icao})</h3>
-                <p class="mt-2 text-md text-gray-600">Responsible Center: <strong class="text-cyan-800">${center}</strong></p>
-                <div class="mt-4 border-t pt-4">
+            <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${name} (${icao})</h3>
+                <p class="mt-2 text-md text-gray-600 dark:text-gray-400">Responsible Center: <strong class="text-cyan-800 dark:text-cyan-400">${center}</strong></p>
+                <div class="mt-4 border-t dark:border-zinc-700 pt-4">
                     <h4 class="text-lg font-semibold mb-2">Frequencies (Live Status):</h4>
-                    <div class="space-y-1 text-gray-700">${freqsHtml}</div>
+                    <div class="space-y-1 text-gray-700 dark:text-gray-300">${freqsHtml}</div>
                 </div>
             </div>`;
     }
 
     function analyzeTopDownServices(icao, vatsimData) {
-        const controllers = (vatsimData.controllers || []).filter(c => c.callsign.startsWith(icao));
+        const controllers = (vatsimData.controllers || []).filter(c => c.callsign.startsWith(icao) && !c.callsign.includes('_OBS'));
         const isOnline = {
             CTR: controllers.some(c => c.callsign.endsWith('_CTR')),
             APP: controllers.some(c => c.callsign.endsWith('_APP')),
@@ -428,22 +445,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return fallbackName;
             }
             const fullName = station.text_atis[0];
-            console.log(`Full name for ${station.callsign}: ${fullName}`);
-            const keywords = ['DELIVERY', 'GROUND', 'TOWER', 'APPROACH', 'RADAR', 'CENTER', 'CENTRE', 'ATIS'];
-            // The full name could be Schiphol Delivery | Rapit wartaeejr aeraernga
-            // I want to split it after matching the first keyword, not always | is used
-            for (const keyword of keywords) {
-                const regex = new RegExp(`\\b${keyword}\\b`, 'i');
-                const match = fullName.match(regex);
-                if (match) {
-                    const namePart = fullName.substring(0, match.index + match[0].length).trim();
-                    console.log(`Matched part for ${station.callsign}: ${namePart}`);
-                    return namePart;
-                }
-            }
-            
-
-            return fallbackName;
+            const keywords = ['DELIVERY', 'GROUND', 'TOWER', 'APPROACH', 'RADAR', 'CENTER', 'CENTRE'];
+            const foundKeyword = keywords.find(kw => fullName.toUpperCase().includes(kw));
+            return foundKeyword ? foundKeyword.charAt(0) + foundKeyword.slice(1).toLowerCase() : fullName;
         };
         
         let clearance = { name: "UNICOM", freq: "122.800", callsign: "UNICOM" };
@@ -486,21 +490,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: "1. At the Gate: ATIS & Clearance",
                 content: `
                     <p class="mb-4">First, get the airport's ATIS for weather and runway info. You must include the ATIS letter in your first call.</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.clearance.name}, ${callsign}, at stand 5, with information Bravo, request IFR clearance to ${arrAirportName}."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${depAirportName} ${dep.clearance.name}, ${callsign}, at stand 5, with information Bravo, request IFR clearance to ${arrAirportName}."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.clearance.name}):</strong> "${callsign}, cleared to ${arrInfo.icao} via the [SID/Departure Procedure], flight planned route. Initial climb [Altitude], departure frequency ${dep.approach.freq}, squawk [Code]."</div>
                     <div class="dialogue pilot-dialogue"><strong>Pilot (Readback):</strong> "Cleared to ${arrInfo.icao}, [SID/Departure], initial climb [Altitude], frequency ${dep.approach.freq}, squawk [Code], ${callsign}."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.clearance.name}):</strong> "${callsign}, readback correct. Contact ${depAirportName} ${dep.ground.name} on ${dep.ground.freq}."</div>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contact ${dep.ground.name} ${dep.ground.freq}, ${callsign}."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contact ${depAirportName} ${dep.ground.name} ${dep.ground.freq}, ${callsign}."</div>
                 `
             },
             {
                 title: "2. On the Apron: Pushback & Taxi",
                 content: `
                     <p class="mb-4">After getting clearance and being told to contact Ground, you make your initial call to them to request movement.</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.ground.name}, ${callsign}, at stand 5 with information Bravo, request pushback and engine start."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${depAirportName} ${dep.ground.name}, ${callsign}, at stand 5 with information Bravo, request pushback and engine start."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, push and start approved, face [Direction]."</div>
                     <p class="my-4">After pushback is complete:</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.ground.name}, ${callsign}, ready to taxi."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${depAirportName} ${dep.ground.name}, ${callsign}, ready to taxi."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, taxi to holding point [Holding Point] for runway [Runway] via taxiway [Taxiway(s)]."</div>
                 `
             },
@@ -508,10 +512,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: "3. At the Runway: Takeoff",
                 content: `
                     <p class="mb-4">Ground will hand you off to Tower. Check in with Tower when ready for departure.</p>
-                    <div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, contact ${dep.tower.name} on ${dep.tower.freq}."</div>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contacting ${dep.tower.name}, ${dep.tower.freq}, ${callsign}."</div>
+                    <div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, contact ${depAirportName} ${dep.tower.name} on ${dep.tower.freq}."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contacting ${depAirportName} ${dep.tower.name}, ${dep.tower.freq}, ${callsign}."</div>
                     <p class="my-4">On the new frequency:</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> " ${dep.tower.name}, ${callsign}, at holding point [Holding Point], ready for departure runway [Runway]."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${depAirportName} ${dep.tower.name}, ${callsign}, at holding point [Holding Point], ready for departure runway [Runway]."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, wind [Direction] degrees at [Speed] knots, runway [Runway], cleared for takeoff."</div>
                 `
             },
@@ -519,10 +523,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: "4. In the Air: Departure",
                 content: `
                     <p class="mb-4">Shortly after takeoff, Tower will hand you off to a radar controller.</p>
-                    <div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, contact ${dep.approach.name} on ${dep.approach.freq}."</div>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contacting ${dep.approach.name}, ${dep.approach.freq}, ${callsign}."</div>
+                    <div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, contact ${depAirportName} ${dep.approach.name} on ${dep.approach.freq}."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Contacting ${depAirportName} ${dep.approach.name}, ${dep.approach.freq}, ${callsign}."</div>
                     <p class="my-4">On the new frequency:</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> " ${dep.approach.name}, ${callsign}, passing [Altitude] feet, climbing [Cleared Altitude] feet."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${depAirportName} ${dep.approach.name}, ${callsign}, passing [Altitude] feet, climbing [Cleared Altitude] feet."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${dep.approach.name}):</strong> "${callsign}, radar contact. Climb and maintain [Flight Level]."</div>
                 `
             },
@@ -539,16 +543,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: "6. Landing & Taxi to Gate",
                 content: `
                     <p class="mb-4">Check in with Tower once established on final. After landing, vacate and contact Ground.</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.tower.name}, ${callsign}, established on the [Approach Type] for runway [Runway]."</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arrInfo.name.split(' ')[0]} ${arr.tower.name}, ${callsign}, established on the [Approach Type] for runway [Runway]."</div>
                     <div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, wind [Direction] at [Speed] knots, runway [Runway], cleared to land."</div>
                     <p class="my-4">After landing and vacating:</p>
-                    <div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, runway vacated, contact ${arr.ground.name} on ${arr.ground.freq}."</div>
+                    <div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, runway vacated, contact ${arrInfo.name.split(' ')[0]} ${arr.ground.name} on ${arr.ground.freq}."</div>
                     <p class="my-4">On the new frequency:</p>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.ground.name}, ${callsign}, runway [Runway] vacated at taxiway [Taxiway], request taxi to the gate."</div>
-                    <div class="dialogue atc-dialogue"><strong>ATC (${arr.ground.name}):</strong> "${callsign}, taxi to gate [Gate] via taxiway [Taxiway(s)]."</div>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "Taxiing to gate [Gate] via taxiway [Taxiway(s)], ${callsign}."</div>
-                    <div class="my-4">Later, when parked:</div>
-                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.ground.name}, ${callsign} is parked at gate [Gate], Have a nice day"</div>
+                    <div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arrInfo.name.split(' ')[0]} ${arr.ground.name}, ${callsign}, runway [Runway] vacated at taxiway [Taxiway], request taxi to the gate."</div>
                 `
             }
         ];
@@ -557,28 +557,28 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderTopDownResults(depServices, arrServices) {
         const renderColumn = (services, type) => {
             return `
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold text-gray-900">${type}: ${services.icao}</h3>
-                    <div class="mt-4 border-t pt-4 space-y-4">
+                <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${type}: ${services.icao}</h3>
+                    <div class="mt-4 border-t dark:border-zinc-700 pt-4 space-y-4">
                         <div>
                             <h4 class="font-semibold text-lg">IFR Clearance:</h4>
-                            <p class="text-xl font-bold text-cyan-700">${services.clearance.name}</p>
-                            <p class="text-gray-600">${services.clearance.callsign} &middot; ${services.clearance.freq}</p>
+                            <p class="text-xl font-bold text-cyan-700 dark:text-cyan-400">${services.clearance.name}</p>
+                            <p class="text-gray-600 dark:text-gray-400">${services.clearance.callsign} &middot; ${services.clearance.freq}</p>
                         </div>
                         <div>
                             <h4 class="font-semibold text-lg">Pushback & Taxi:</h4>
-                            <p class="text-xl font-bold text-cyan-700">${services.ground.name}</p>
-                            <p class="text-gray-600">${services.ground.callsign} &middot; ${services.ground.freq}</p>
+                            <p class="text-xl font-bold text-cyan-700 dark:text-cyan-400">${services.ground.name}</p>
+                            <p class="text-gray-600 dark:text-gray-400">${services.ground.callsign} &middot; ${services.ground.freq}</p>
                         </div>
                         <div>
                             <h4 class="font-semibold text-lg">Takeoff / Landing:</h4>
-                            <p class="text-xl font-bold text-cyan-700">${services.tower.name}</p>
-                            <p class="text-gray-600">${services.tower.callsign} &middot; ${services.tower.freq}</p>
+                            <p class="text-xl font-bold text-cyan-700 dark:text-cyan-400">${services.tower.name}</p>
+                            <p class="text-gray-600 dark:text-gray-400">${services.tower.callsign} &middot; ${services.tower.freq}</p>
                         </div>
                         <div>
                             <h4 class="font-semibold text-lg">Departure / Approach:</h4>
-                            <p class="text-xl font-bold text-cyan-700">${services.approach.name}</p>
-                            <p class="text-gray-600">${services.approach.callsign} &middot; ${services.approach.freq}</p>
+                            <p class="text-xl font-bold text-cyan-700 dark:text-cyan-400">${services.approach.name}</p>
+                            <p class="text-gray-600 dark:text-gray-400">${services.approach.callsign} &middot; ${services.approach.freq}</p>
                         </div>
                     </div>
                 </div>
@@ -605,7 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         try {
-            const response = await fetch(`https://data.vatsim.net/v3/vatsim-data.json`);
+            const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://data.vatsim.net/v3/vatsim-data.json')}`);
             if (!response.ok) {
                  throw new Error(`Network response was not ok, status: ${response.status}`);
             }
