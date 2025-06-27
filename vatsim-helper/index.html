@@ -236,21 +236,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function createAccordion(containerId, data) {
         const container = document.getElementById(containerId);
         if (!container || !data) return;
-        container.innerHTML = data.map((item, index) => `
+        container.innerHTML = data.map((item, index) => {
+            const isAlwaysOpen = item.title.includes('⚠️ Center Controller Alert');
+            const buttonClass = isAlwaysOpen ? 'accordion-button flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 focus:outline-none cursor-default' : 'accordion-button flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-zinc-700 focus:outline-none';
+            const contentClass = isAlwaysOpen ? 'p-5 border-t border-gray-200 dark:border-zinc-700' : 'hidden p-5 border-t border-gray-200 dark:border-zinc-700';
+            const contentStyle = isAlwaysOpen ? 'max-height: none; overflow: visible;' : 'max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;';
+            const iconRotation = isAlwaysOpen ? 'rotate-180' : '';
+            const iconStyle = isAlwaysOpen ? 'display: none;' : '';
+            
+            return `
             <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm">
                 <h2>
-                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-zinc-700 focus:outline-none" data-accordion-target="accordion-body-${containerId}-${index}">
+                    <button type="button" class="${buttonClass}" data-accordion-target="accordion-body-${containerId}-${index}" ${isAlwaysOpen ? 'disabled' : ''}>
                         <span>${item.title}</span>
-                        <svg class="w-6 h-6 shrink-0 transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <svg class="w-6 h-6 shrink-0 transform ${iconRotation}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="${iconStyle}"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                     </button>
                 </h2>
-                <div id="accordion-body-${containerId}-${index}" class="hidden p-5 border-t border-gray-200 dark:border-zinc-700" style="max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;">${item.content}</div>
+                <div id="accordion-body-${containerId}-${index}" class="${contentClass}" style="${contentStyle}">${item.content}</div>
             </div>
-        `).join('');
+        `;
+        }).join('');
 
         container.addEventListener('click', e => {
             const button = e.target.closest('.accordion-button');
-            if (!button) return;
+            if (!button || button.disabled) return;
             const content = document.getElementById(button.dataset.accordionTarget);
             const icon = button.querySelector('svg');
             content.classList.toggle('hidden');
@@ -347,16 +356,51 @@ document.addEventListener('DOMContentLoaded', () => {
             return icao; // Return ICAO as a fallback if data isn't ready
         }
         // Return the name from the data, or the ICAO itself if not found.
-        return airportsData[icao].name || icao;
+        return airportsData[icao] && airportsData[icao].name ? airportsData[icao].name : icao;
     }
 
-    function getAirportControl(icao) {
+    function getAirportControl(icao, vatsimData = null) {
         if (!airportsData) {
             console.error("Airport data not loaded yet!");
             return null; // Return null if data isn't ready
         }
-        // Return the FIR from the data, or null if not found.
-        return airportsData[icao] && airportsData[icao].center_name !== null && airportsData[icao].center_callsign !== null ? `${airportsData[icao].center_name} (${airportsData[icao].center_callsign})` : null;
+        
+        const airportData = airportsData[icao];
+        if (!airportData || !airportData.center_name || !airportData.center_callsign) {
+            return null;
+        }
+        
+        // If VATSIM data is provided, check if the center controller is actually online
+        if (vatsimData && vatsimData.controllers) {
+            // Find the center controller that matches the callsign and is not an observer
+            const centerOnline = vatsimData.controllers.find(c => 
+                c.callsign.includes(airportData.center_callsign) && !c.callsign.includes('_OBS')
+            );
+
+            if (centerOnline) {
+                return {
+                    name: airportData.center_name,
+                    callsign: airportData.center_callsign,
+                    frequency: centerOnline.frequency,
+                    online: true
+                };
+            } else {
+                return {
+                    name: airportData.center_name,
+                    callsign: airportData.center_callsign,
+                    frequency: null,
+                    online: false
+                };
+            }
+        }
+        
+        // Fallback for when no VATSIM data is provided
+        return {
+            name: airportData.center_name,
+            callsign: airportData.center_callsign,
+            frequency: null,
+            online: false
+        };
     }
 
     /**
@@ -366,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const controllers = (vatsimData.controllers || []).filter(c => c.callsign.startsWith(icao) && !c.callsign.includes('_OBS'));
         const atis = (vatsimData.atis || []).find(a => a.callsign.startsWith(icao));
         const name = getAirportName(icao);
-        const center = getAirportControl(icao);
+        const center = getAirportControl(icao, vatsimData);
         
         return { icao, name, center, controllers, atis };
     }
@@ -388,7 +432,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         freqsHtml += `<li class="flex items-center"><span class="w-20 font-semibold text-gray-500 dark:text-gray-400">UNICOM:</span> 122.800</li></ul>`;
-        const centerHtml = center ? `<h4 class="text-gray-600 dark:text-gray-400">${center} is the center for this airport</h4>` : `<div class="h-6"></div>`;
+        
+        let centerHtml = '';
+        if (center) {
+            if (center.online) {
+                centerHtml = `<h4 class="text-gray-600 dark:text-gray-400">${center.name} (${center.callsign}) is online at ${center.frequency}</h4>`;
+            } else {
+                centerHtml = `<h4 class="text-gray-600 dark:text-gray-400">${center.name} (${center.callsign}) is offline</h4>`;
+            }
+        } else {
+            centerHtml = `<div class="h-6"></div>`;
+        }
+        
         return `<div class="bg-white dark:bg-zinc-800 p-6 rounded-lg shadow-md flex-1 h-full"><h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">${name} (${icao})</h3>${centerHtml}<div class="mt-4 border-t dark:border-zinc-700 pt-4"><h4 class="text-lg font-semibold mb-2">Frequencies (Live Status):</h4><div class="space-y-1 text-gray-700 dark:text-gray-300">${freqsHtml}</div></div></div>`;
     }
 
@@ -421,15 +476,75 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateFlightPhraseology(callsign, dep, arr) {
        if (!callsign || !dep || !arr ) return null;
        const isUnicom = (station) => station.name === 'UNICOM';
-       const script = [
+       
+       // Check if any center controllers are online
+       const depCenterOnline = dep.center && dep.center.online;
+       const arrCenterOnline = arr.center && arr.center.online;
+       const anyCenterOnline = depCenterOnline || arrCenterOnline;
+       let script = [];
+       
+       // Add disclaimer if any center is online
+       if (anyCenterOnline) {
+           let centerInfo = '';
+           if (depCenterOnline && arrCenterOnline && dep.center.callsign === arr.center.callsign) {
+               centerInfo = `<strong>${dep.center.name} (${dep.center.callsign})</strong> is online at <strong>${dep.center.frequency}</strong>`;
+           } else {
+               if (depCenterOnline) {
+                   centerInfo += `<strong>${dep.center.name} (${dep.center.callsign})</strong> is online at <strong>${dep.center.frequency}</strong>`;
+               }
+               if (arrCenterOnline && dep.center.callsign !== arr.center.callsign) {
+                   if (centerInfo) centerInfo += ' and ';
+                   centerInfo += `<strong>${arr.center.name} (${arr.center.callsign})</strong> is online at <strong>${arr.center.frequency}</strong>`;
+               }
+           }
+           
+           script.push({
+               title: "⚠️ Center Controller Alert",
+               content: `<div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 p-4 mb-4"><p class="mb-2"><strong>Important:</strong> ${centerInfo}.</p><p>Center controllers manage large airspace regions and may contact you during cruise flight for traffic separation, altitude changes, or routing amendments. Monitor their frequency during your flight and be ready to respond to calls directed at your aircraft.</p></div>`
+           });
+       }
+       
+       script = script.concat([
            { title: "1. At the Gate: Clearance", content: isUnicom(dep.clearance) ? `<p class="mb-4">No Clearance Delivery is online. Announce intentions on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${dep.name} Traffic, ${callsign}, at stand 5, pushing back for departure to ${arr.name}."</div>` : `<p class="mb-4">First, get the airport's ATIS for weather and runway info. You must include the ATIS letter in your first call.</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.clearance.name}, ${callsign}, at stand 5, with information Bravo, request IFR clearance to ${arr.name}."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.clearance.name}):</strong> "${callsign}, cleared to ${arr.icao} via the [SID/Departure Procedure], flight planned route. Initial climb [Altitude], departure frequency ${dep.approach.freq}, squawk [Code]."</div>`},
            { title: "2. On the Apron: Taxi", content: isUnicom(dep.ground) ? `<p class="mb-4">No Ground controller is online. Announce taxi on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${dep.name} Traffic, ${callsign}, taxiing to runway [Runway]."</div>` : `<p class="mb-4">After getting clearance and being told to contact Ground, you make your initial call to them to request movement.</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.ground.name}, ${callsign}, at stand 5 with information Bravo, request taxi."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, taxi to holding point [Holding Point] for runway [Runway] via taxiway [Taxiway(s)]."</div>`},
-           { title: "3. At the Runway: Takeoff", content: isUnicom(dep.tower) ? `<p class="mb-4">No Tower controller is online. Announce takeoff on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${dep.name} Traffic, ${callsign}, departing runway [Runway]."</div>` : `<p class="mb-4">Ground will hand you off to Tower. Check in with Tower when ready for departure.</p><div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, contact ${dep.tower.name} on ${dep.tower.freq}."</div><p class="my-4">On the new frequency:</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.tower.name}, ${callsign}, at holding point [Holding Point], ready for departure runway [Runway]."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, wind [Direction] degrees at [Speed] knots, runway [Runway], cleared for takeoff."</div>`},
-           { title: "4. In the Air: Departure", content: isUnicom(dep.approach) ? `<p class="mb-4">No Departure controller is online. Monitor UNICOM and fly your cleared route.</p>` : `<p class="mb-4">Shortly after takeoff, Tower will hand you off to a radar controller.</p><div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, contact ${dep.approach.name} on ${dep.approach.freq}."</div><p class="my-4">On the new frequency:</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.approach.name}, ${callsign}, passing [Altitude] feet, climbing [Cleared Altitude] feet."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.approach.name}):</strong> "${callsign}, radar contact. Climb and maintain [Flight Level]."</div>`},
-           { title: "5. Arrival: Descent & Approach", content: isUnicom(arr.approach) ? `<p class="mb-4">No Approach controller is online. Announce your position and intentions on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, 15 miles to the [Direction] at [Altitude] feet, inbound for the [Approach Type] runway [Runway]."</div>` : `<p class="mb-4">As you near your destination, Approach control will issue descent instructions and clear you for an arrival.</p><div class="dialogue atc-dialogue"><strong>ATC (${arr.approach.name}):</strong> "${callsign}, fly heading [Heading]. Descend and maintain [Altitude] feet, QNH [QNH]. Expect vectors for the [Approach Type] runway [Runway] approach."</div>`},
-           { title: "6. Landing & Taxi to Gate", content: isUnicom(arr.tower) ? `<p class="mb-4">No Tower controller is online. Announce your final approach and landing on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, on final for runway [Runway]."</div><p class="my-4">After landing and vacating:</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, runway [Runway] vacated."</div>` : `<p class="mb-4">Check in with Tower once established on final. After landing, vacate and contact Ground.</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.tower.name}, ${callsign}, established on the [Approach Type] for runway [Runway]."</div><div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, wind [Direction] at [Speed] knots, runway [Runway], cleared to land."</div><p class="my-4">After landing and vacating:</p><div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, runway vacated, contact ${arr.ground.name} on ${arr.ground.freq}."</div>`}
-       ];
-       return script.map(item => ({ title: item.title, content: item.content }));
+           { title: "3. At the Runway: Takeoff", content: isUnicom(dep.tower) ? `<p class="mb-4">No Tower controller is online. Announce takeoff on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${dep.name} Traffic, ${callsign}, departing runway [Runway]."</div>` : `<p class="mb-4">Ground will hand you off to Tower. Check in with Tower when ready for departure.</p><div class="dialogue atc-dialogue"><strong>ATC (${dep.ground.name}):</strong> "${callsign}, contact ${dep.tower.name} on ${dep.tower.freq}."</div><p class="my-4">On the new frequency:</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.tower.name}, ${callsign}, at holding point [Holding Point], ready for departure runway [Runway]."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, wind [Direction] degrees at [Speed] knots, runway [Runway], cleared for takeoff."</div>`}
+       ]);
+       
+       // Add departure section with center info if applicable
+       let departureContent = '';
+       if (isUnicom(dep.approach)) {
+           departureContent = `<p class="mb-4">No Departure controller is online. Monitor UNICOM and fly your cleared route.</p>`;
+           if (depCenterOnline) {
+               departureContent += `<p class="mb-4"><strong>Center Controller Online:</strong> ${dep.center.name} may contact you once airborne for traffic management.</p><div class="dialogue atc-dialogue"><strong>Possible ATC (${dep.center.name}):</strong> "${callsign}, contact ${dep.center.name} on ${dep.center.frequency}."</div><p class="my-4">If contacted by Center:</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.center.name}, ${callsign}, level [Altitude] feet."</div>`;
+           }
+       } else {
+           departureContent = `<p class="mb-4">Shortly after takeoff, Tower will hand you off to a radar controller.</p><div class="dialogue atc-dialogue"><strong>ATC (${dep.tower.name}):</strong> "${callsign}, contact ${dep.approach.name} on ${dep.approach.freq}."</div><p class="my-4">On the new frequency:</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.approach.name}, ${callsign}, passing [Altitude] feet, climbing [Cleared Altitude] feet."</div><div class="dialogue atc-dialogue"><strong>ATC (${dep.approach.name}):</strong> "${callsign}, radar contact. Climb and maintain [Flight Level]."</div>`;
+           if (depCenterOnline) {
+               departureContent += `<p class="my-4">During cruise, you may be handed off to Center:</p><div class="dialogue atc-dialogue"><strong>ATC (${dep.approach.name}):</strong> "${callsign}, contact ${dep.center.name} on ${dep.center.frequency}."</div><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${dep.center.name}, ${callsign}, level [Flight Level]."</div>`;
+           }
+       }
+       
+       script.push({ title: "4. In the Air: Departure", content: departureContent });
+       
+       // Add arrival section with center info if applicable
+       let arrivalContent = '';
+       if (isUnicom(arr.approach)) {
+           arrivalContent = `<p class="mb-4">No Approach controller is online. Announce your position and intentions on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, 15 miles to the [Direction] at [Altitude] feet, inbound for the [Approach Type] runway [Runway]."</div>`;
+           if (arrCenterOnline) {
+               arrivalContent += `<p class="mb-4"><strong>Center Controller Online:</strong> ${arr.center.name} may provide descent instructions as you approach.</p><div class="dialogue atc-dialogue"><strong>Possible ATC (${arr.center.name}):</strong> "${callsign}, descend and maintain [Altitude] feet, QNH [QNH]."</div>`;
+           }
+       } else {
+           arrivalContent = `<p class="mb-4">As you near your destination, Approach control will issue descent instructions and clear you for an arrival.</p><div class="dialogue atc-dialogue"><strong>ATC (${arr.approach.name}):</strong> "${callsign}, fly heading [Heading]. Descend and maintain [Altitude] feet, QNH [QNH]. Expect vectors for the [Approach Type] runway [Runway] approach."</div>`;
+           if (arrCenterOnline && dep.center.callsign !== arr.center.callsign) {
+               arrivalContent += `<p class="my-4">You may be handed off to the arrival center first:</p><div class="dialogue atc-dialogue"><strong>ATC (Center):</strong> "${callsign}, contact ${arr.center.name} on ${arr.center.frequency}."</div><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.center.name}, ${callsign}, level [Flight Level], descending to [Altitude] feet."</div>`;
+           }
+       }
+       
+       script.push({ title: "5. Arrival: Descent & Approach", content: arrivalContent });
+       
+       script.push({ title: "6. Landing & Taxi to Gate", content: isUnicom(arr.tower) ? `<p class="mb-4">No Tower controller is online. Announce your final approach and landing on UNICOM.</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, on final for runway [Runway]."</div><p class="my-4">After landing and vacating:</p><div class="dialogue pilot-dialogue"><strong>Pilot to UNICOM (122.800):</strong> "${arr.name} Traffic, ${callsign}, runway [Runway] vacated."</div>` : `<p class="mb-4">Check in with Tower once established on final. After landing, vacate and contact Ground.</p><div class="dialogue pilot-dialogue"><strong>Pilot:</strong> "${arr.tower.name}, ${callsign}, established on the [Approach Type] for runway [Runway]."</div><div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, wind [Direction] at [Speed] knots, runway [Runway], cleared to land."</div><p class="my-4">After landing and vacating:</p><div class="dialogue atc-dialogue"><strong>ATC (${arr.tower.name}):</strong> "${callsign}, runway vacated, contact ${arr.ground.name} on ${arr.ground.freq}."</div>`});
+       
+       return script;
     }
     
     function renderTopDownResults(depServices, arrServices) {
@@ -477,12 +592,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const depAirportInfo = getDynamicAirportInfo(depIcao, vatsimData);
             const arrAirportInfo = getDynamicAirportInfo(arrIcao, vatsimData);
+
+ 
             
             departureResultsDiv.innerHTML = generateAirportHtml(depAirportInfo);
             arrivalResultsDiv.innerHTML = generateAirportHtml(arrAirportInfo);
 
             const depServices = analyzeTopDownServices(depAirportInfo);
             const arrServices = analyzeTopDownServices(arrAirportInfo);
+            
+            // Add center information to the services objects
+            depServices.center= depAirportInfo.center;
+            arrServices.center = arrAirportInfo.center;
+            
             renderTopDownResults(depServices, arrServices);
             
             const phraseologyData = generateFlightPhraseology(callsign, depServices, arrServices);
