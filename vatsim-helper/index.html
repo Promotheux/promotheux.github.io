@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function analyzeTopDownServices(airportInfo) {
-        const { icao, controllers } = airportInfo;
+        const { icao, controllers, center } = airportInfo;
         const getStation = (type) => controllers.find(c => c.callsign.endsWith(`_${type}`));
         const stations = { DEL: getStation('DEL'), GND: getStation('GND'), TWR: getStation('TWR'), APP: getStation('APP'), CTR: getStation('CTR') };
         const formatStationName = (station, fallbackName) => {
@@ -461,9 +461,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return fallbackName;
         };
+        
         const unicomStation = { name: "UNICOM", freq: "122.800", callsign: "UNICOM" };
-        const finalServices = { clearance: unicomStation, ground: unicomStation, tower: unicomStation, approach: unicomStation };
+        
+        // Create center station object if center is online
+        const centerStation = center && center.online ? 
+            { name: center.name, freq: center.frequency, callsign: center.callsign } : 
+            unicomStation;
+        
+        const finalServices = { clearance: centerStation, ground: centerStation, tower: centerStation, approach: centerStation };
 
+        // Apply top-down hierarchy - each online station overrides the services below it
         if (stations.CTR) { const s = stations.CTR; finalServices.approach = finalServices.tower = finalServices.ground = finalServices.clearance = { name: formatStationName(s, 'Center'), freq: s.frequency, callsign: s.callsign }; }
         if (stations.APP) { const s = stations.APP; finalServices.approach = finalServices.tower = finalServices.ground = finalServices.clearance = { name: formatStationName(s, 'Approach'), freq: s.frequency, callsign: s.callsign }; }
         if (stations.TWR) { const s = stations.TWR; finalServices.tower = finalServices.ground = finalServices.clearance = { name: formatStationName(s, 'Tower'), freq: s.frequency, callsign: s.callsign }; }
