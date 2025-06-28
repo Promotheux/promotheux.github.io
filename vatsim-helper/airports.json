@@ -4316,8 +4316,8 @@
         "lon": 7.6848333333333
     },
     "EDDH": {
-        "center_callsign": "EDWW",
-        "center_name": "Bremen",
+        "center_callsign": "EDWW_A",
+        "center_name": "Bremen Radar",
         "name": "Hamburg",
         "lat": 53.630333333333,
         "lon": 9.9881666666667
@@ -4389,8 +4389,8 @@
         "lon": 9.6835
     },
     "EDDW": {
-        "center_callsign": "EDWW",
-        "center_name": "Bremen",
+        "center_callsign": "EDWW_A",
+        "center_name": "Bremen Radar",
         "name": "Bremen",
         "lat": 53.047333333333,
         "lon": 8.7866666666667
@@ -4437,6 +4437,13 @@
         "lat": 50.875,
         "lon": 8.083333
     },
+    "EDHF": {
+        "center_callsign": "EDWW_A",
+        "center_name": "Bremen Radar",
+        "name": "Friedrichshafen",
+        "lat": 47.671333333333,
+        "lon": 9.5115
+    },
     "EDHI": {
         "center_callsign": "EDWW",
         "center_name": "Bremen",
@@ -4452,7 +4459,7 @@
         "lon": 10.145278
     },
     "EDHL": {
-        "center_callsign": "EDWW",
+        "center_callsign": "EDWW_A",
         "center_name": "Bremen",
         "name": "L\u00fcbeck",
         "lat": 53.805333333333,
@@ -4760,8 +4767,15 @@
         "lat": 54.309,
         "lon": 8.686833
     },
+    "EDXU": {
+        "center_callsign": "EDWW_A",
+        "center_name": "Bremen Radar",
+        "name": "Uetersen-Heist",
+        "lat": 53.683333,
+        "lon": 9.7
+    },
     "EDXW": {
-        "center_callsign": "EDWW",
+        "center_callsign": "EDWW_A",
         "center_name": "Bremen",
         "name": "Sylt",
         "lat": 54.911666666667,
@@ -5061,64 +5075,64 @@
         "lon": -7.161111
     },
     "EGBB": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Birmingham",
         "lat": 52.453856,
         "lon": -1.748028
     },
     "EGBE": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Coventry",
         "lat": 52.369722,
         "lon": -1.479722
     },
     "EGBJ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Gloucester",
         "lat": 51.894111,
         "lon": -2.167108
     },
     "EGBK": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Sywell",
         "lat": 52.305278,
         "lon": -0.792778
     },
     "EGBN": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Nottingham",
         "lat": 52.92,
         "lon": -1.079167
     },
     "EGCC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Manchester",
         "lat": 53.353744,
         "lon": -2.27495
     },
     "EGCD": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Manchester Woodford",
         "lat": 53.338056,
         "lon": -2.148889
     },
     "EGCN": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Doncaster Sheffield",
         "lat": 53.474222,
         "lon": -1.004444
     },
     "EGDL": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Lyneham",
         "lat": 51.505167,
         "lon": -1.993333
@@ -5129,8 +5143,8 @@
         "name": "RAF St Athan"
     },
     "EGDY": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RNAS Yeovilton",
         "lat": 51.009333,
         "lon": -2.638833
@@ -5227,106 +5241,106 @@
         "lon": -6.243056
     },
     "EGFE": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Haverfordwest",
         "lat": 51.833056,
         "lon": -4.961111
     },
     "EGFF": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Cardiff",
         "lat": 51.396667,
         "lon": -3.343333
     },
     "EGFH": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Swansea",
         "lat": 51.605278,
         "lon": -4.067778
     },
     "EGGD": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Bristol",
         "lat": 51.382669,
         "lon": -2.719089
     },
     "EGGP": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Liverpool John Lennon",
         "lat": 53.333611,
         "lon": -2.849722
     },
     "EGGW": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Luton",
         "lat": 51.874444,
         "lon": -0.368333
     },
     "EGHC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Land's End",
         "lat": 50.102778,
         "lon": -5.670556
     },
     "EGHD": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Plymouth City",
         "lat": 50.422778,
         "lon": -4.105833
     },
     "EGHE": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "St. Mary's",
         "lat": 49.91667,
         "lon": -6.29972
     },
     "EGHH": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Bournemouth",
         "lat": 50.78,
         "lon": -1.8425
     },
     "EGHI": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Southampton",
         "lat": 50.950261,
         "lon": -1.356803
     },
     "EGHJ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Bembridge",
         "lat": 50.694444,
         "lon": -1.109167
     },
     "EGHL": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Lasham Airfield",
         "lat": 51.186111,
         "lon": -1.030556
     },
     "EGHQ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Cornwall Newquay",
         "lat": 50.4405,
         "lon": -4.995333
     },
     "EGHR": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Goodwood Airfield",
         "lat": 50.86244,
         "lon": -0.75478
@@ -5353,71 +5367,71 @@
         "lon": -2.195508
     },
     "EGKA": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Shoreham",
         "lat": 50.835556,
         "lon": -0.297222
     },
     "EGKB": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "London Biggin Hill",
         "lat": 51.330833,
         "lon": 0.0325
     },
     "EGKK": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Gatwick",
         "lat": 51.148056,
         "lon": -0.190278
     },
     "EGKR": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Redhill",
         "lat": 51.213611,
         "lon": -0.138611
     },
     "EGLC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "London City",
         "lat": 51.505256,
         "lon": 0.054369
     },
     "EGLF": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Farnborough",
         "lat": 51.275833,
         "lon": -0.776389
     },
     "EGLK": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Blackbushe",
         "lat": 51.323889,
         "lon": -0.8475
     },
     "EGLL": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Heathrow",
         "lat": 51.4775,
         "lon": -0.461389
     },
     "EGMC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "London Southend",
         "lat": 51.571389,
         "lon": 0.695556
     },
     "EGMD": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Lydd",
         "lat": 50.95,
         "lon": 0.93306
@@ -5435,36 +5449,36 @@
         "lon": -2.809167
     },
     "EGNH": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Blackpool",
         "lat": 53.771561,
         "lon": -3.028561
     },
     "EGNJ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Humberside",
         "lat": 53.574444,
         "lon": -0.350833
     },
     "EGNL": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Barrow/Walney Island Airfield",
         "lat": 54.11667,
         "lon": -3.25
     },
     "EGNM": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Leeds Bradford",
         "lat": 53.865897,
         "lon": -1.660569
     },
     "EGNR": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Hawarden",
         "lat": 53.178056,
         "lon": -2.977778
@@ -5491,15 +5505,15 @@
         "lon": -1.429406
     },
     "EGNX": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "East Midlands",
         "lat": 52.831111,
         "lon": -1.328056
     },
     "EGOV": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Anglesey or RAF Valley",
         "lat": 53.248167,
         "lon": -4.535333
@@ -5652,8 +5666,8 @@
         "lon": -3.339169
     },
     "EGSC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Cambridge",
         "lat": 52.205,
         "lon": 0.175
@@ -5664,43 +5678,43 @@
         "name": "Ipswich ipw? Ipswich, England"
     },
     "EGSH": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Norwich",
         "lat": 52.675833,
         "lon": 1.282778
     },
     "EGSS": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "London Stansted",
         "lat": 51.885,
         "lon": 0.235
     },
     "EGSU": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Duxford",
         "lat": 52.090833,
         "lon": 0.132222
     },
     "EGSY": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Sheffield City",
         "lat": 51.404833,
         "lon": -3.435833
     },
     "EGTE": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Exeter",
         "lat": 50.734444,
         "lon": -3.413889
     },
     "EGTF": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Fairoaks",
         "lat": 51.348056,
         "lon": -0.559444
@@ -5711,29 +5725,29 @@
         "name": "Bristol Filton"
     },
     "EGTK": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Oxford",
         "lat": 51.836944,
         "lon": -1.319722
     },
     "EGTO": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "Rochester",
         "lat": 51.351944,
         "lon": 0.502778
     },
     "EGUA": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Upper Heyford",
         "lat": 51.93306,
         "lon": -1.25
     },
     "EGUB": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Benson",
         "lat": 51.616333,
         "lon": -1.095833
@@ -5744,43 +5758,43 @@
         "name": "RAF Abingdon"
     },
     "EGUL": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Lakenheath",
         "lat": 52.409167,
         "lon": 0.562778
     },
     "EGUN": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Mildenhall",
         "lat": 52.360833,
         "lon": 0.486944
     },
     "EGUY": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Wyton",
         "lat": 52.35,
         "lon": -0.11639
     },
     "EGVA": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Fairford",
         "lat": 51.68306,
         "lon": -1.78306
     },
     "EGVN": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Brize Norton",
         "lat": 51.75,
         "lon": -1.583667
     },
     "EGVO": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Odiham",
         "lat": 51.234167,
         "lon": -0.942833
@@ -5796,43 +5810,43 @@
         "name": "Andover"
     },
     "EGWU": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Northolt",
         "lat": 51.553,
         "lon": -0.418167
     },
     "EGWZ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Alconbury",
         "lat": 52.36667,
         "lon": -0.21639
     },
     "EGXC": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Coningsby",
         "lat": 53.093,
         "lon": -0.166
     },
     "EGXH": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Honington",
         "lat": 52.33306,
         "lon": 0.76639
     },
     "EGXJ": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Cottesmore",
         "lat": 52.735667,
         "lon": -0.648833
     },
     "EGXP": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Scampton",
         "lat": 53.306111,
         "lon": -0.549722
@@ -5845,15 +5859,15 @@
         "lon": -1.252833
     },
     "EGXW": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Waddington",
         "lat": 53.166167,
         "lon": -0.523833
     },
     "EGYM": {
-        "center_callsign": "EGTT",
-        "center_name": "London",
+        "center_callsign": "LON",
+        "center_name": "London Center",
         "name": "RAF Marham",
         "lat": 52.648333,
         "lon": 0.5505
@@ -25696,71 +25710,71 @@
         "lon": -5.897411355982313
     },
     "LFAB": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "St Aubin",
         "lat": 49.882633,
         "lon": 1.085331
     },
     "LFAC": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Calais - Dunkerque",
         "lat": 50.960933,
         "lon": 1.951433
     },
     "LFAD": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Compi\u00e8gne Margny",
         "lat": 49.433611,
         "lon": 2.804722
     },
     "LFAF": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Laon - Chambry",
         "lat": 49.594722,
         "lon": 3.630278
     },
     "LFAG": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "P\u00e9ronne-Saint-Quentin",
         "lat": 49.868861,
         "lon": 3.0296
     },
     "LFAK": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Dunkerque les Moeres",
         "lat": 51.040556,
         "lon": 2.550278
     },
     "LFAQ": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Albert-Bray",
         "lat": 49.970061,
         "lon": 2.692617
     },
     "LFAT": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Le Touquet-C\u00e9te d'Opale",
         "lat": 50.514847,
         "lon": 1.627578
     },
     "LFAV": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Valenciennes-Denain",
         "lat": 50.324792,
         "lon": 3.465444
     },
     "LFAY": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Amiens-Glisy",
         "lat": 49.873103,
         "lon": 2.386986
@@ -26128,8 +26142,8 @@
         "lon": 6.5775
     },
     "LFLA": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Auxerre - Branches",
         "lat": 47.846328,
         "lon": 3.496578
@@ -26387,43 +26401,43 @@
         "lon": 6.599167
     },
     "LFOB": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Paris Beauvais Till\u00e9",
         "lat": 49.454422,
         "lon": 2.112814
     },
     "LFOD": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Saumur-Saint-Florent",
         "lat": 47.256731,
         "lon": -0.113553
     },
     "LFOE": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "\u00c9vreux-Fauville",
         "lat": 49.028611,
         "lon": 1.22
     },
     "LFOF": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Alen\u00e7on Valframbert",
         "lat": 48.446667,
         "lon": 0.108333
     },
     "LFOH": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Le Havre Octeville",
         "lat": 49.533847,
         "lon": 0.088119
     },
     "LFOI": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Abbeville - Buigny-Saint-Maclou",
         "lat": 50.142222,
         "lon": 1.831111
@@ -26436,8 +26450,8 @@
         "lon": 1.760556
     },
     "LFOK": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Ch\u00e2lons-Vatry",
         "lat": 48.773325,
         "lon": 4.206156
@@ -26450,29 +26464,29 @@
         "lon": -1.725
     },
     "LFOP": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Rouen",
         "lat": 49.390953,
         "lon": 1.183936
     },
     "LFOQ": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Blois-Le Breuil",
         "lat": 47.679833,
         "lon": 1.205775
     },
     "LFOR": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Chartres Champhol",
         "lat": 48.458889,
         "lon": 1.523889
     },
     "LFOT": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Tours Val de Loire",
         "lat": 47.431944,
         "lon": 0.723056
@@ -26492,57 +26506,57 @@
         "lon": -0.742781
     },
     "LFPB": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Paris - Le Bourget",
         "lat": 48.969525,
         "lon": 2.441492
     },
     "LFPC": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Creil",
         "lat": 49.253611,
         "lon": 2.519167
     },
     "LFPG": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Charles de Gaulle",
         "lat": 49.009747,
         "lon": 2.547819
     },
     "LFPN": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Toussus-le-Noble",
         "lat": 48.749756,
         "lon": 2.111178
     },
     "LFPO": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Orly",
         "lat": 48.723281,
         "lon": 2.379578
     },
     "LFPT": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Pontoise",
         "lat": 49.096628,
         "lon": 2.040722
     },
     "LFPV": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Villacoublay-V\u00e9lizy",
         "lat": 48.774172,
         "lon": 2.191389
     },
     "LFQB": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Barberey",
         "lat": 48.321619,
         "lon": 4.016622
@@ -26555,36 +26569,36 @@
         "lon": 3.110742
     },
     "LFQI": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Cambrai-\u00c9pinoy",
         "lat": 50.219167,
         "lon": 3.152222
     },
     "LFQJ": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Maubeuge-\u00c9lesmes",
         "lat": 50.308333,
         "lon": 4.03
     },
     "LFQQ": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Lille-Lesquin",
         "lat": 50.563425,
         "lon": 3.086822
     },
     "LFQT": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Merville Calonne",
         "lat": 50.6166,
         "lon": 2.640094
     },
     "LFQV": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Charleville-M\u00e9zi\u00e8res",
         "lat": 49.785053,
         "lon": 4.642808
@@ -26639,8 +26653,8 @@
         "lon": -1.563833
     },
     "LFRG": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Deauville/Saint Gatien",
         "lat": 49.363394,
         "lon": 0.159997
@@ -26674,8 +26688,8 @@
         "lon": -0.449875
     },
     "LFRM": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Le Mans-Arnage",
         "lat": 47.948492,
         "lon": 0.201647
@@ -26793,8 +26807,8 @@
         "lon": 7.011667
     },
     "LFSR": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Reims-Champagne",
         "lat": 49.31015,
         "lon": 4.050761
@@ -26807,8 +26821,8 @@
         "lon": 7.634444
     },
     "LFSW": {
-        "center_callsign": "LFFF",
-        "center_name": "Paris Control",
+        "center_callsign": "PAR",
+        "center_name": "Paris Center",
         "name": "Plivot",
         "lat": 49.004444,
         "lon": 4.085278
