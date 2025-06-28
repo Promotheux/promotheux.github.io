@@ -9850,7 +9850,7 @@
         "name": "Kalamazoo/Battle Creek"
     },
     "KBAB": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Beale Air Force Base"
     },
@@ -14960,7 +14960,7 @@
         "name": "Mobile"
     },
     "KMOD": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Modesto City-County"
     },
@@ -15580,7 +15580,7 @@
         "name": "Albert J. Ellis"
     },
     "KOAK": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Oakland"
     },
@@ -16140,13 +16140,13 @@
         "name": "Eastern Oregon"
     },
     "KPDX": {
-        "center_callsign": "KZSE",
+        "center_callsign": "SEA_16",
         "center_name": "Seattle Center",
         "name": "Portland"
     },
     "KPEA": {
-        "center_callsign": null,
-        "center_name": null,
+        "center_callsign": "SEA_16",
+        "center_name": "Seattle Center",
         "name": "Pella"
     },
     "KPEO": {
@@ -16785,7 +16785,7 @@
         "name": "Red Oak"
     },
     "KRDM": {
-        "center_callsign": "KZSE",
+        "center_callsign": "SEA_16",
         "center_name": "Seattle Center",
         "name": "Roberts"
     },
@@ -16960,7 +16960,7 @@
         "name": "Ramona"
     },
     "KRNO": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Reno-Tahoe"
     },
@@ -17315,7 +17315,7 @@
         "name": "Schenectady County"
     },
     "KSCK": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Stockton Metropolitan"
     },
@@ -17350,7 +17350,7 @@
         "name": "Sidney-Richland"
     },
     "KSEA": {
-        "center_callsign": "KZSE",
+        "center_callsign": "SEA_16",
         "center_name": "Seattle Center",
         "name": "Seattle-Tacoma"
     },
@@ -17420,7 +17420,7 @@
         "name": "Sanford"
     },
     "KSFO": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "San Francisco"
     },
@@ -17515,7 +17515,7 @@
         "name": "Siskiyou County"
     },
     "KSJC": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Norman Y. Mineta San Jos\u00e9"
     },
@@ -17535,7 +17535,7 @@
         "name": "Beaver Island"
     },
     "KSKA": {
-        "center_callsign": "KZSE",
+        "center_callsign": "SEA_16",
         "center_name": "Seattle Center",
         "name": "Fairchild AFB"
     },
@@ -17625,7 +17625,7 @@
         "name": "Somerset-Pulaski County"
     },
     "KSMF": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Sacramento"
     },
@@ -18020,7 +18020,7 @@
         "name": "Truth or Consequences"
     },
     "KTCY": {
-        "center_callsign": "KZOA",
+        "center_callsign": "OAK_62",
         "center_name": "Oakland Center",
         "name": "Tracy"
     },
